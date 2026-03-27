@@ -1,6 +1,6 @@
 // src/components/public/UserAuthModal.tsx
 import React, { useState, useEffect } from 'react';
-import { useUserAuthStore } from '../../hooks/useUserAuthStore';
+import { useUserAuthStore } from '../hooks/useUserAuthStore';
 
 interface Props {
   onClose: () => void;
