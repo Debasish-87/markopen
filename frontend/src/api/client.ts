@@ -97,39 +97,3 @@ export async function toggleShopStatus(id: number): Promise<Shop> {
   const res = await api.patch<APIResponse<Shop>>(`/admin/shops/${id}/toggle`);
   return res.data.data!;
 }
-
-// ─── SHOPKEEPER ───────────────────────────────────────────────────────────────
-
-export async function skSignup(payload: { username: string; password: string; phone: string }) {
-  const res = await api.post<APIResponse<{ token: string }>>('/shopkeepers/signup', payload);
-  return res.data.data!;
-}
-
-export async function skLogin(payload: { username: string; password: string }) {
-  const res = await api.post<APIResponse<{ token: string }>>('/shopkeepers/login', payload);
-  return res.data.data!;
-}
-
-export async function skSubmitRequest(payload: Record<string, unknown>) {
-  const res = await api.post<APIResponse<unknown>>('/shopkeepers/requests', payload, {
-    headers: { Authorization: `Bearer ${localStorage.getItem('markopen_sk_token')}` }
-  });
-  return res.data;
-}
-
-export async function skGetRequests() {
-  const res = await api.get<APIResponse<unknown[]>>('/shopkeepers/requests', {
-    headers: { Authorization: `Bearer ${localStorage.getItem('markopen_sk_token')}` }
-  });
-  return res.data.data ?? [];
-}
-
-export async function adminGetSKRequests() {
-  const res = await api.get<APIResponse<unknown[]>>('/admin/sk-requests');
-  return res.data.data ?? [];
-}
-
-export async function adminReviewSKRequest(id: string, status: string, note: string) {
-  const res = await api.patch<APIResponse<unknown>>(`/admin/sk-requests/${id}/review`, { status, admin_note: note });
-  return res.data;
-}
