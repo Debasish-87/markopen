@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: markopen-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: ENV
+        value: production
+      - key: PORT
+        value: 8080
+      - key: DB_SSLMODE
+        value: require
+      - key: JWT_EXPIRY_HOURS
+        value: 24
+      - key: USER_JWT_EXPIRY_HOURS
+        value: 72
+      # Set these manually in Render dashboard (sensitive):
+      # DATABASE_URL, JWT_SECRET, ADMIN_SEED_USER, ADMIN_SEED_PASS, ALLOWED_ORIGINS
+    healthCheckPath: /api/health
+    autoDeploy: true

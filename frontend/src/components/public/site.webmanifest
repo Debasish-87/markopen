@@ -1,0 +1,16 @@
+{
+  "name": "Markopen — Find Open Shops",
+  "short_name": "Markopen",
+  "description": "Find open shops near you",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F7F4EF",
+  "theme_color": "#D4880A",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

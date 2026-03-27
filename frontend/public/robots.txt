@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://markopen.in/sitemap.xml

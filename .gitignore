@@ -1,0 +1,17 @@
+# Node
+node_modules/
+dist/
+build/
+
+# Go
+bin/
+vendor/
+
+# Env
+.env
+
+# OS
+.DS_Store
+
+# Logs
+*.log
