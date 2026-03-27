@@ -29,7 +29,7 @@ export interface SKMessage {
 }
 
 export function getSKRequests(): SKRequest[] {
-  try { return JSON.parse(localStorage.getItem(SK_REQUESTS_KEY) || '[]'); } catch { return []; }
+  return []; // Data now comes from API
 }
 export function getSKMessages(): SKMessage[] {
   try { return JSON.parse(localStorage.getItem(SK_MESSAGES_KEY) || '[]'); } catch { return []; }
@@ -325,7 +325,17 @@ const Dashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const [showTypeSelect, setShowTypeSelect] = useState(true);
   const [showPhone, setShowPhone] = useState(false);
 
-  useEffect(() => { setMyReqs(getSKRequests().filter(r => r.submittedBy === username)); }, [username, view]);
+  useEffect(() => {
+    (async () => {
+      try {
+        const { skGetRequests } = await import('../../api/client');
+        const reqs = await skGetRequests() as SKRequest[];
+        setMyReqs(reqs);
+      } catch {
+        setMyReqs([]);
+      }
+    })();
+  }, [username, view]);
 
   const readImage = (file: File, setter: (s: string) => void) => { const r = new FileReader(); r.onload = () => setter(r.result as string); r.readAsDataURL(file); };
   const resetForm = () => { setShopName(''); setSkName(''); setPhoneField(phone || ''); setMapLink(''); setDescription(''); setLogoPreview(null); setPhotoPreview(null); setErrors({}); setShowTypeSelect(true); setRequestType('new_shop'); setSubmitted(false); setSubmitting(false); setShowPhone(false); };
@@ -365,7 +375,20 @@ const Dashboard: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     await new Promise(r => setTimeout(r, 700));
     const rtMeta = REQUEST_TYPES.find(t => t.value === requestType);
     const req: SKRequest = { id: `sk_${Date.now()}`, submittedBy: username!, shopId: null, shopName: shopName.trim(), shopkeeperName: skName.trim(), phone: phoneField.trim(), logoBase64: logoPreview, shopPhotoBase64: photoPreview, mapLink: mapLink.trim(), status: 'pending', submittedAt: new Date().toISOString(), requestType, description: description.trim(), showPhone };
-    saveSKRequest(req); setMyReqs(getSKRequests().filter(r => r.submittedBy === username));
+    try {
+      const { skSubmitRequest } = await import('../../api/client');
+      await skSubmitRequest({
+        shop_name: req.shopName,
+        shopkeeper_name: req.shopkeeperName,
+        phone: req.phone,
+        logo_base64: req.logoBase64,
+        shop_photo_base64: req.shopPhotoBase64,
+        map_link: req.mapLink,
+        request_type: req.requestType,
+        description: req.description,
+        show_phone: req.showPhone,
+      });
+    } catch(e) { console.error(e); }
     setSubmitting(false); setSubmitted(true);
     setTimeout(() => { setSubmitted(false); setView('list'); }, 1800);
   };
