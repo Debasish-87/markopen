@@ -12,7 +12,7 @@ interface SEOProps {
 }
 
 const SITE_NAME = 'Markopen';
-const SITE_URL  = 'https://markopen.app'; // update to your domain
+const SITE_URL  = 'https://markopen.in'; // update to your domain
 const DEFAULT_DESC = 'Find open shops near you — browse local businesses by category, check hours, and discover what\'s open right now.';
 const DEFAULT_IMG  = `${SITE_URL}/og-default.png`;
 
