@@ -5,11 +5,11 @@ const BASE_URL = 'https://markopen.in';
 const today = new Date().toISOString().split('T')[0];
 
 const routes = [
-  { path: '/',           priority: '1.0', changefreq: 'daily' },
-  { path: '/#favorites', priority: '0.7', changefreq: 'weekly' },
-  { path: '/#about',     priority: '0.5', changefreq: 'monthly' },
-  { path: '/#privacy',   priority: '0.3', changefreq: 'monthly' },
-  { path: '/#terms',     priority: '0.3', changefreq: 'monthly' },
+  { path: '/',          priority: '1.0', changefreq: 'daily' },
+  { path: '/favorites', priority: '0.7', changefreq: 'weekly' },
+  { path: '/about',     priority: '0.5', changefreq: 'monthly' },
+  { path: '/privacy',   priority: '0.3', changefreq: 'monthly' },
+  { path: '/terms',     priority: '0.3', changefreq: 'monthly' },
 ];
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
